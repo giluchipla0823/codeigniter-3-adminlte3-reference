@@ -6,6 +6,16 @@ class User_model extends CI_Model
     protected $table = 'users';
     protected $primaryKey = 'id';
 
+    const USER_ACTIVATED = 1;
+    const USER_DEACTIVATED = 0;
+
+    /**
+     * Autenticación de usuarios.
+     *
+     * @param string $email
+     * @param string $password
+     * @return bool
+     */
     public function authenticate($email, $password){
         $this->db->where(array(
             'email' => $email
@@ -44,5 +54,25 @@ class User_model extends CI_Model
         $this->session->set_userdata($data);
 
         return true;
+    }
+
+    /**
+     * Crear nuevo usuario.
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function create($data){
+        $data = array(
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'username' => $data['username'],
+            'password' =>$this->encryption->encrypt($data['password'])
+        );
+
+        $query = $this->db->insert($this->table, $data);
+
+        return (bool) $query;
     }
 }

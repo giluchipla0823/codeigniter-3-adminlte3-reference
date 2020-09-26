@@ -6,12 +6,13 @@ class Login extends CI_Controller
     const METHOD_POST = 'post';
 
     /**
-     * Mostrar página de login.
+     * Mostrar página de login o iniciar sesión.
      *
+     * @return mixed
      */
     public function index(){
         if($this->input->method() === self::METHOD_POST && $this->authenticate()){
-            redirect(base_url('dashboard'));
+            return redirect(base_url('dashboard'));
         }
 
         return $this->load->view('auth/login/index_view');
