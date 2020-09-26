@@ -6,7 +6,7 @@ class CheckAuthenticated
     private $CI;
 
     private $excludeControllers = array(
-        'login', 'logout', 'register'
+        'login', 'logout', 'register', 'welcome', 'activate_account'
     );
 
     public function __construct() {

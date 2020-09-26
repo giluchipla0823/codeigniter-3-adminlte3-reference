@@ -34,10 +34,19 @@ class Register extends CI_Controller
 
         $this->load->model('User_model');
 
-        if(!$this->User_model->create($request)){
+        if(!$user = $this->User_model->create($request)){
             $this->session->set_flashdata(
                 'error_register_user',
                 'Ocurrió un problema al registrar los datos del usuario.'
+            );
+
+            return false;
+        }
+
+        if(!$this->sendEmail($user)){
+            $this->session->set_flashdata(
+                'error_register_user',
+                'Ocurrió un problema en el envío de email al usuario registrado.'
             );
 
             return false;
@@ -91,5 +100,40 @@ class Register extends CI_Controller
         $this->form_validation->set_message("max_length", "El campo %s debe contener máximo {param} caracteres.");
         $this->form_validation->set_message("matches", "Las contraseñas no coinciden.");
         $this->form_validation->set_message("is_unique", "El %s ya se encuentra en uso.");
+    }
+
+    /**
+     * Envío de email para usuario registrado.
+     *
+     * @param object $user
+     * @return bool
+     */
+    private function sendEmail($user){
+        $this->load->library('email');
+
+        $config = Array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'smtp.mailtrap.io',
+            'smtp_port' => 2525,
+            'smtp_user' => 'c2467942a7ac2a',
+            'smtp_pass' => 'eef4e12c0e7816',
+            'crlf' => "\r\n",
+            'newline' => "\r\n",
+            'mailtype' => 'html',
+        );
+
+        $body = $this->load->view(
+            'emails/auth/register_users_email_view',
+            array('user' => $user),
+            TRUE
+        );
+
+        $this->email->initialize($config);
+        $this->email->from('webmaster@example.com', 'Web master');
+        $this->email->to($user->email);
+        $this->email->subject('Confirmación de registro de usuario');
+        $this->email->message($body);
+
+        return $this->email->send();
     }
 }

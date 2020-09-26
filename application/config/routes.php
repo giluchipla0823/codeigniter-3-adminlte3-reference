@@ -59,6 +59,7 @@ $route['login']['POST'] = 'auth/login/index';
 $route['logout']['get'] = 'auth/logout/index';
 $route['register']['GET'] = 'auth/register/index';
 $route['register']['POST'] = 'auth/register/index';
+$route['activate-account']['GET'] = 'auth/activate_account/index';
 
 $route['dashboard']['get'] = 'dashboard/home/home/index';
 $route['dashboard/home']['get'] = 'dashboard/home/home/index';

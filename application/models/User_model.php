@@ -60,7 +60,7 @@ class User_model extends CI_Model
      * Crear nuevo usuario.
      *
      * @param array $data
-     * @return bool
+     * @return bool|object
      */
     public function create($data){
         $data = array(
@@ -68,11 +68,59 @@ class User_model extends CI_Model
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'username' => $data['username'],
-            'password' =>$this->encryption->encrypt($data['password'])
+            'password' =>$this->encryption->encrypt($data['password']),
+            'email_verification_code' => generate_random_string(50),
+            'active' => self::USER_DEACTIVATED
         );
 
         $query = $this->db->insert($this->table, $data);
 
-        return (bool) $query;
+        if(!$query){
+            return false;
+        }
+
+        return $this->find($this->db->insert_id());
+    }
+
+    public function find($id){
+        $this->db->where(array(
+            $this->primaryKey => $id
+        ));
+
+        $query = $this->db->get($this->table);
+
+        if(!$query){
+            return false;
+        }
+
+        return $query->row();
+    }
+
+    public function updateVerifiedUser($id){
+        $today = new DateTime('now');
+
+        $data = array(
+            'email_verification_code' => null,
+            'email_verified_at' => $today->format('Y-m-d H:i:s'),
+            'active' => self::USER_ACTIVATED
+        );
+
+        $this->db->where('id', $id);
+        $this->db->update('users', $data);
+    }
+
+    public function getUserWithToken($token){
+        $this->db->where(array(
+            'email_verification_code' => $token,
+            'active' => self::USER_DEACTIVATED
+        ));
+
+        $query = $this->db->get('users');
+
+        if(!$query){
+            return null;
+        }
+
+        return $query->row();
     }
 }
