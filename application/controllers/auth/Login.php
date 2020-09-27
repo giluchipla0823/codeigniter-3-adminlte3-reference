@@ -67,7 +67,5 @@ class Login extends CI_Controller
         );
 
         $this->form_validation->set_rules($rules);
-        $this->form_validation->set_message("valid_email", "El campo %s debe ser un email válido.");
-        $this->form_validation->set_message("required", "El campo %s es requerido.");
     }
 }

@@ -52,8 +52,8 @@
             <?php
             $errorsHtml = '';
 
-            if($this->session->flashdata('error_register_user')){
-                $errorsHtml .= '<li>'. $this->session->flashdata('error_register_user') .'</li>';
+            if($this->session->flashdata('error')){
+                $errorsHtml .= '<li>'. $this->session->flashdata('error') .'</li>';
             }
 
             if(validation_errors()){
@@ -69,6 +69,12 @@
                 </div>
             <?php } ?>
 
+            <?php if($this->session->flashdata('success')){ ?>
+                <div class="alert alert-success">
+                    <p><?php echo $this->session->flashdata('success'); ?></p>
+                </div>
+            <?php } ?>
+
             <form id="register-form" action="" method="post" novalidate data-parsley-validate>
                 <div class="input-group mb-3">
                     <input
@@ -76,8 +82,8 @@
                         name="first_name"
                         class="form-control"
                         placeholder="Nombres"
-                        data-parsley-maxlength="100"
                         value="<?php echo set_value('first_name'); ?>"
+                        data-parsley-maxlength="50"
                         required />
                     <div class="input-group-append">
                         <div class="input-group-text">
@@ -91,8 +97,8 @@
                         name="last_name"
                         class="form-control"
                         placeholder="Apellidos"
-                        data-parsley-maxlength="100"
                         value="<?php echo set_value('last_name'); ?>"
+                        data-parsley-maxlength="50"
                         required />
                     <div class="input-group-append">
                         <div class="input-group-text">
@@ -106,8 +112,8 @@
                         name="email"
                         class="form-control"
                         placeholder="Email"
-                        data-parsley-maxlength="150"
                         value="<?php echo set_value('email'); ?>"
+                        data-parsley-maxlength="150"
                         required />
                     <div class="input-group-append">
                         <div class="input-group-text">
@@ -121,9 +127,9 @@
                         name="username"
                         class="form-control"
                         placeholder="Usuario"
+                        value="<?php echo set_value('username'); ?>"
                         data-parsley-minlength="6"
                         data-parsley-maxlength="50"
-                        value="<?php echo set_value('username'); ?>"
                         required />
                     <div class="input-group-append">
                         <div class="input-group-text">
@@ -173,19 +179,6 @@
                     <!-- /.col -->
                 </div>
             </form>
-
-<!--            <div class="social-auth-links text-center">-->
-<!--                <p>- OR -</p>-->
-<!--                <a href="#" class="btn btn-block btn-primary">-->
-<!--                    <i class="fab fa-facebook mr-2"></i>-->
-<!--                    Sign up using Facebook-->
-<!--                </a>-->
-<!--                <a href="#" class="btn btn-block btn-danger">-->
-<!--                    <i class="fab fa-google-plus mr-2"></i>-->
-<!--                    Sign up using Google+-->
-<!--                </a>-->
-<!--            </div>-->
-
         </div>
         <!-- /.form-box -->
     </div><!-- /.card -->
@@ -215,7 +208,6 @@
                 return elem;
             }
         }
-
 
         $('#register-form').parsley(config)
             .on('field:error', function(){
