@@ -1,5 +1,5 @@
 <?php
-/* @var array $user */
+/* @var object $user */
 ?>
 <!doctype html>
 <html lang="en">
@@ -18,5 +18,6 @@
         Ahora el siguiente paso es confirmar tu registro haciendo click
         <a href="<?php echo base_url('activate-account') . "?token=" . $user->email_verification_code; ?>">AQUÍ</a>
     </p>
+
 </body>
 </html>

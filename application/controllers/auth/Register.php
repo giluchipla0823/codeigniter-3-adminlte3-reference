@@ -96,8 +96,8 @@ class Register extends CI_Controller
         $this->form_validation->set_rules($rules);
         $this->form_validation->set_message("valid_email", "El campo %s debe ser un email válido.");
         $this->form_validation->set_message("required", "El campo %s es requerido.");
-        $this->form_validation->set_message("min_length", "El campo %s debe contener mínimo {param} caracteres.");
-        $this->form_validation->set_message("max_length", "El campo %s debe contener máximo {param} caracteres.");
+        $this->form_validation->set_message("min_length", "El campo %s debe contener mínimo %s caracteres.");
+        $this->form_validation->set_message("max_length", "El campo %s debe contener máximo %s caracteres.");
         $this->form_validation->set_message("matches", "Las contraseñas no coinciden.");
         $this->form_validation->set_message("is_unique", "El %s ya se encuentra en uso.");
     }

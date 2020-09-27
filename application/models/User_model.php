@@ -96,7 +96,7 @@ class User_model extends CI_Model
         return $query->row();
     }
 
-    public function updateVerifiedUser($id){
+    public function markAsVerified($id){
         $today = new DateTime('now');
 
         $data = array(
@@ -106,10 +106,11 @@ class User_model extends CI_Model
         );
 
         $this->db->where('id', $id);
-        $this->db->update('users', $data);
+
+        return (bool) $this->db->update('users', $data);
     }
 
-    public function getUserWithToken($token){
+    public function findByToken($token){
         $this->db->where(array(
             'email_verification_code' => $token,
             'active' => self::USER_DEACTIVATED
