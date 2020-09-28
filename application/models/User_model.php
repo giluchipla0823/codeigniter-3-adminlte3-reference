@@ -68,7 +68,7 @@ class User_model extends CI_Model
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'username' => $data['username'],
-            'password' =>$this->encryption->encrypt($data['password']),
+            'password' => $this->encryption->encrypt($data['password']),
             'email_verification_code' => generate_random_string(50),
             'active' => self::USER_DEACTIVATED
         );
@@ -116,12 +116,29 @@ class User_model extends CI_Model
             'active' => self::USER_DEACTIVATED
         ));
 
-        $query = $this->db->get('users');
+        $query = $this->db->get($this->table);
 
         if(!$query){
             return null;
         }
 
         return $query->row();
+    }
+
+    /**
+     * Actualizar contraseña.
+     *
+     * @param string $email
+     * @param string $password
+     * @return bool
+     */
+    public function updatePassword($email, $password){
+        $data = array(
+            'password' => $this->encryption->encrypt($password),
+        );
+
+        $this->db->where('email', $email);
+
+        return (bool) $this->db->update('users', $data);
     }
 }

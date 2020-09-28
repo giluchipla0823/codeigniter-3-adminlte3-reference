@@ -1,12 +1,18 @@
 <?php
-
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class CheckAuthenticated
 {
     private $CI;
 
     private $excludeControllers = array(
-        'login', 'logout', 'register', 'welcome', 'activate_account'
+        'login',
+        'logout',
+        'register',
+        'welcome',
+        'activate_account',
+        'forgot_password',
+        'recover_password'
     );
 
     public function __construct() {

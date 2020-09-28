@@ -11,7 +11,7 @@ class Register extends CI_Controller
      * @return mixed
      */
     public function index(){
-        if($this->input->method() === self::METHOD_POST && $this->createUser()){
+        if($this->input->method() === self::METHOD_POST && $this->processedForm()){
             return redirect(base_url('register'));
         }
 
@@ -23,7 +23,7 @@ class Register extends CI_Controller
      *
      * @return bool
      */
-    private function createUser(){
+    private function processedForm(){
         $request = $this->input->post();
 
         $this->setRules();

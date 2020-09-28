@@ -60,6 +60,11 @@ $route['logout']['get'] = 'auth/logout/index';
 $route['register']['GET'] = 'auth/register/index';
 $route['register']['POST'] = 'auth/register/index';
 $route['activate-account']['GET'] = 'auth/activate_account/index';
+$route['forgot-password']['GET'] = 'auth/forgot_password/index';
+$route['forgot-password']['POST'] = 'auth/forgot_password/index';
+
+$route['recover-password']['GET'] = 'auth/recover_password/index';
+$route['recover-password']['POST'] = 'auth/recover_password/index';
 
 $route['dashboard']['get'] = 'dashboard/home/home/index';
 $route['dashboard/home']['get'] = 'dashboard/home/home/index';

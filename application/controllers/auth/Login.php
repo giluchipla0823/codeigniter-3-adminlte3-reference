@@ -11,7 +11,7 @@ class Login extends CI_Controller
      * @return mixed
      */
     public function index(){
-        if($this->input->method() === self::METHOD_POST && $this->authenticate()){
+        if($this->input->method() === self::METHOD_POST && $this->processedForm()){
             return redirect(base_url('dashboard'));
         }
 
@@ -22,7 +22,7 @@ class Login extends CI_Controller
      * Autenticación de usuarios.
      *
      */
-    private function authenticate(){
+    private function processedForm(){
         $request = $this->input->post();
 
         $email = $request['email'];
