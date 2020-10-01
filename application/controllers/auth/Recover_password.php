@@ -5,15 +5,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Recover_password extends CI_Controller
 {
     const METHOD_POST = 'post';
+    const METHOD_GET = 'get';
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->model('Password_resets_model');
+    }
 
     public function index(){
-        $this->load->model('Password_resets_model');
-
         if(!$token = $this->input->get('token')){
             show_404();
         }
 
-        if(!$model = $this->Password_resets_model->find(array('token' => $token))){
+        $model = $this->Password_resets_model->find(array('token' => $token));
+
+        if($this->session->userdata('finish_recover_password') === false && !$model){
             throw new Exception(
                 'No existe una solicitud de cambio de contraseña con el token proporcionado',
                 400
@@ -24,9 +32,17 @@ class Recover_password extends CI_Controller
             return redirect(base_url('recover-password') . "?token={$token}");
         }
 
+        $this->session->set_userdata('finish_recover_password', false);
+
         return $this->load->view('auth/recover_password/index_view');
     }
 
+    /**
+     * Procesar formulario.
+     *
+     * @param object $model
+     * @return bool
+     */
     private function processedForm($model){
         $password = $this->input->post('password');
 
@@ -47,15 +63,17 @@ class Recover_password extends CI_Controller
             return false;
         }
 
+        $this->Password_resets_model->delete($model->email, $model->token);
+
         $this->session->set_flashdata(
             'success',
             "Tu contraseña se cambió correctamente."
         );
 
+        $this->session->set_userdata('finish_recover_password', true);
+
         return true;
     }
-
-
 
     /**
      * Reglas de validación.

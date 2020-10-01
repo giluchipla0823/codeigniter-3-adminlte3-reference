@@ -24,7 +24,7 @@ class Password_resets_model extends CI_Model
     }
 
     /**
-     * Crear nuevo registro para cambiar contraseña.
+     * Crear nuevo registro.
      *
      * @param string $email
      * @return bool|object
@@ -47,5 +47,21 @@ class Password_resets_model extends CI_Model
             'email' => $email,
             'token' => $token
         ));
+    }
+
+    /**
+     * Eliminar registro.
+     *
+     * @param string $email
+     * @param string $token
+     * @return bool
+     */
+    public function delete($email, $token){
+        $this->db->where(array(
+            'token' => $token,
+            'email' => $email
+        ));
+
+        return (bool) $this->db->delete($this->table);
     }
 }

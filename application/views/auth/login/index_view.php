@@ -119,7 +119,7 @@
             </form>
 
             <p class="mb-1">
-                <a href="">Recuperar contraseña</a>
+                <a href="<?php echo base_url('forgot-password'); ?>">¿Olvidaste tu contraseña?</a>
             </p>
             <p class="mb-0">
                 <a href="<?php echo base_url('register'); ?>" class="text-center">Crear cuenta</a>
